@@ -42,5 +42,68 @@ Actor와 Use case들과의 관계를 나타내었다.
 사용자(User)를 중심으로 회원가입, 로그인, 그룹 생성 및 참여, 지출 관리, 정산 결과 조회 기능 등을 정의하였다. 지출 등록, 수정, 삭제 및 정산 요청과 같은 주요 이벤트 발생 시 알림을 제공하기 위해 Notification 기능을 포함하였다. 해당 알림 기능은 공통적으로 수행되는 기능으로 <<include>> 관계로 표현하였다. Concpetualization에서 정산 계산 use case가 있었지만 시스템 내부로 간주하여 use case로 분리하지 않았다. 또한 알림 기능은 외부 시스템인 Notification Service와의 연동을 통해 알림을 받도록 구성하였다.
 
 ## Use case Description
+### Use case #1: Sign up
+
+| GENERAL CHARACTERISTICS |  |
+|---|---|
+| Summary | 사용자가 Trabill 서비스를 사용하기 위해 회원 계정을 생성하는 기능 |
+| Scope | Trabill |
+| Level | User level |
+| Author | 이예린 |
+| Last Update |  |
+| Status | Analysis |
+| Primary Actor | 사용자 |
+| Preconditions | 시스템이 실행되어야한다. |
+| Trigger | 사용자가 로그인 화면에서 회원가입 버튼을 눌렀을 때 |
+| Success Post Condition | 새로운 회원 계정이 생성되어 로그인할 수 있다. |
+| Failed Post Condition | 회원가입이 실패하여 계정이 생성되지 않는다. |
+| MAIN SUCCESS SCENARIO |  |
+| Step | Action |
+| s | 사용자가 회원가입을 한다. |
+| 1 | 사용자가 이메일, 닉네임, 비밀번호, 계좌번호등의 회원 정보를 입력한다. |
+| 2 | 사용자가 회원가입 버튼을 누른다. |
+| 3 | 시스템은 입력값의 유효성을 검사한다. |
+| 4 | 시스템은 회원 정보를 DB에 저장한다. |
+| 5 | 회원가입이 완료되면 성공 메세지를 띄우고 로그인 화면으로 이동한다. |
+| EXTENSION SCENARIOS |  |
+| Step | Branching Action |
+| 1 | 1a. 입력값이 비어있는 경우 <br><br> ...1a.1. 시스템은 “모든 정보를 입력해주세요.” 메시지를 출력한다. <br> ...1a.2. 사용자는 정보를 다시 입력한다. <br> ...1a.3. 이메일 형식이 올바르지 않은 경우 <br><br> ...1a.4. 시스템은 “올바른 이메일 형식을 입력해주세요.” 메시지를 출력한다. ...1a.5. 이미 가입된 이메일인 경우 <br><br> ...1a.6. 시스템은 “이미 존재하는 계정입니다.” 메시지를 출력한다.|
+| RELATED INFORMATION |  |
+| Performance | ≤ 5초 |
+| Frequency | 신규 사용자 가입 시 |
+| Concurrency |  |
+| Due Date |  |
+
+### Use case #2 : Login
+
+| GENERAL CHARACTERISTICS |  |
+|---|---|
+| Summary | 사용자가 Trabill을 사용하기 위해 회원 인증을 받기 위한 기능 |
+| Scope | Trabill |
+| Level | User level |
+| Author | 이예린 |
+| Last Update |  |
+| Status | Analysis |
+| Primary Actor | 사용자 |
+| Preconditions | 사용자가 회원가입을 완료한 상태여야 한다. |
+| Trigger | 사용자가 로그인을 하기 위해 이메일과 비밀번호를 입력한 후 회원 인증을 받으려고 할 때 |
+| Success Post Condition | 사용자가 인증되어 메인 화면으로 이동한다. |
+| Failed Post Condition | 로그인에 실패하면 사용 허가를 받지 못하여 서비스를 사용할 수 없다. |
+| MAIN SUCCESS SCENARIO |  |
+| Step | Action |
+| s | 사용자가 앱 시스템에 로그인한다. |
+| 1 | 사용자가 이메일과 비밀번호를 입력하고 로그인 버튼을 클릭한다. |
+| 2 | 시스템 DB에 등록된 회원인지 확인하고 등록된 회원이라면 로그인에 성공한다. |
+| 3 | 로그인이 성공하면 시스템은 메인화면으로 이동한다. |
+| EXTENSION SCENARIOS |  |
+| Step | Branching Action |
+| 1 | 1a. 이메일 또는 비밀번호가 입력되지 않은 경우 <br><br> ...1a.1. 시스템은 “이메일과 비밀번호를 입력해주세요.” 메시지를 출력한다. <br> ...1a.2. 사용자는 로그인 화면으로 돌아간다. |
+| 2 | 2a. 등록되지 않은 이메일인 경우 <br><br> ...2a.1. 시스템은 “존재하지 않는 계정입니다.” 메시지를 출력한다. <br> ...2a.2. 사용자는 로그인 화면으로 돌아간다. |
+| 3 | 3a. 비밀번호가 일치하지 않는 경우 <br><br> ...3a.1. 시스템은 “비밀번호가 올바르지 않습니다.” 메시지를 출력한다. <br> ...3a.2. 사용자는 비밀번호를 다시 입력한다. |
+| RELATED INFORMATION |  |
+| Performance | ≤ 5초 |
+| Frequency |  |
+| Concurrency | 제한 없음|
+| Due Date |  |
 
 
