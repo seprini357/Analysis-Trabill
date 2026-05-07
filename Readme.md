@@ -4,7 +4,7 @@
 
 ---
 
-# Introduction 
+# 1. Introduction 
 본 문서는 Conceptualiztion 단계에서 정의된 내용을 기반으로 시스템의 요구사항과 목표를 구체화하는 Analysis 단계의 문서이다.
 
 ## Summary
@@ -31,7 +31,7 @@
 
 ---
 
-# Use case analysis
+# 2. Use case analysis
 ## Use case Diagram
 Conceptualization에서 System context diagram과 Use case list를 참조하여 Use 
 case diagram을 다음과 같이 작성하였다. 모델링 도구는 Star UML을 사용하였으며 
@@ -106,7 +106,7 @@ Actor와 Use case들과의 관계를 나타내었다.
 | Concurrency | 제한 없음|
 | Due Date |  |
 
-# Use case #3 : Create Group
+### Use case #3 : Create Group
 
 | GENERAL CHARACTERISTICS |  |
 |---|---|
@@ -145,7 +145,7 @@ Actor와 Use case들과의 관계를 나타내었다.
 | Concurrency |  |
 | Due Date |  |
 
-# Use case #4 : Join Group
+### Use case #4 : Join Group
 
 | GENERAL CHARACTERISTICS |  |
 |---|---|
@@ -184,7 +184,7 @@ Actor와 Use case들과의 관계를 나타내었다.
 | Concurrency | |
 | Due Date | |
 
-# Use case #5 : Add Expense
+### Use case #5 : Add Expense
 
 | GENERAL CHARACTERISTICS |  |
 |---|---|
@@ -229,7 +229,7 @@ Actor와 Use case들과의 관계를 나타내었다.
 | Concurrency | |
 | Due Date | |
 
-# Use case #6 : Edit Expenses
+### Use case #6 : Edit Expenses
 
 | GENERAL CHARACTERISTICS |  |
 |---|---|
@@ -267,7 +267,7 @@ Actor와 Use case들과의 관계를 나타내었다.
 | Concurrency | |
 | Due Date | |
 
-# Use case #7 : Delete Expenses
+### Use case #7 : Delete Expenses
 
 | GENERAL CHARACTERISTICS |  |
 |---|---|
@@ -303,7 +303,7 @@ Actor와 Use case들과의 관계를 나타내었다.
 | Concurrency | |
 | Due Date | |
 
-# Use case #8 : View Expenses
+### Use case #8 : View Expenses
 
 | GENERAL CHARACTERISTICS |  |
 |---|---|
@@ -333,7 +333,7 @@ Actor와 Use case들과의 관계를 나타내었다.
 | Concurrency | |
 | Due Date | |
 
-# Use case #9 : Request Settlement
+### Use case #9 : Request Settlement
 
 | GENERAL CHARACTERISTICS |  |
 |---|---|
@@ -372,7 +372,7 @@ Actor와 Use case들과의 관계를 나타내었다.
 | Concurrency | |
 | Due Date | |
 
-# Use case #10 : View Settlement Results
+### Use case #10 : View Settlement Results
 
 | GENERAL CHARACTERISTICS |  |
 |---|---|
@@ -415,5 +415,34 @@ Actor와 Use case들과의 관계를 나타내었다.
 | Frequency | 필요 시 |
 | Concurrency | 제한 없음 |
 | Due Date | 제한 없음 |
+
+---
+
+# 3. Domain analysis
+## Classes
+### User
+시스템을 사용하는 사용자를 나타내는 클래스이다. 사용자는 회원가입 및 로그인을 수행할 수 있으며, 그룹 생성 및 참여, 지출 등록, 정산 결과 확인 등의 기능을 수행한다. 사용자 정보로는 닉네임, 이메일, 계좌번호, 프로필 정보 등을 가진다. 하나의 사용자는 여러 그룹에 참여할 수 있고 여러 지출 및 정산 내역과 연결될 수 있다.
+### Account
+사용자의 인증 및 로그인 정보를 관리하는 클래스이다. 이메일과 비밀번호 등의 계정 정보를 저장하며, 사용자 인증 및 로그인 기능에 사용된다. 하나의 Account는 하나의 User와 연결된다.
+### Group
+여행 경비를 함께 관리하는 사용자들의 모임을 나타내는 클래스이다. 그룹명, 생성일, 그룹장 정보 등의 데이터를 가지며, 그룹 단위로 지출 내역과 정산 정보를 관리한다. 하나의 그룹에는 여러 명의 사용자가 참여할 수 있다.
+### GroupMember
+특정 사용자가 특정 그룹에 참여한 상태를 나타내는 클래스이다. User와 Group 사이의 다대다(M:N) 관계를 관리하기 위해 사용된다. 그룹 참여 날짜, 그룹 내 역할, 초대 상태 등의 정보를 저장할 수 있다.
+### Expense
+여행 중 발생한 지출 내역을 나타내는 클래스이다. 지출 금액, 지출 내용, 카테고리, 결제자, 생성 날짜 등의 정보를 저장한다. 하나의 지출은 특정 그룹에 속하며 여러 참여자와 연결될 수 있다. 또한 영수증과 같은 증빙 자료를 포함할 수 있다.
+### ExpenseParticipant
+특정 지출에 참여한 사용자를 나타내는 클래스이다. Expense와 User 사이의 관계를 관리하며, 각 사용자의 비용 분담 정보를 저장한다. 하나의 지출에 여러 사용자가 참여할 수 있으며, 사용자별 분담 금액 또는 정산 상태를 저장할 수 있다.
+### Receipt
+지출에 대한 증빙 자료를 관리하는 클래스이다. 사용자가 업로드한 영수증 이미지 또는 파일 정보를 저장한다. 파일 경로, 업로드 날짜, 파일 형식 등의 정보를 관리하며, 하나의 Receipt는 하나의 Expense와 연결된다.
+### Settlement
+그룹 내 전체 지출 내역을 기반으로 계산된 정산 결과를 나타내는 클래스이다. 사용자별 총 지출 금액, 실제 부담 금액, 송금해야 하는 금액, 수령해야 하는 금액 등의 정보를 저장한다. 하나의 Settlement는 특정 Group와 연결된다.
+### SettlementDetail
+정산 결과의 세부 송금 정보를 나타내는 클래스이다. 특정 사용자가 누구에게 얼마를 송금해야 하는지에 대한 정보를 저장하며, 송금 완료 여부와 입금 확인 여부를 관리한다. 또한 관련 사용자들이 모두 정산 완료 처리를 했을 경우 상태를 완료로 변경한다.
+### Notification
+시스템 내 주요 이벤트 발생 시 사용자에게 전달되는 알림 정보를 나타내는 클래스이다. 그룹 초대, 지출 등록 및 수정, 지출 삭제, 정산 완료 등의 이벤트 발생 시 생성된다. 알림 내용, 생성 날짜, 읽음 여부 등의 정보를 저장한다.
+### NotificationService
+시스템에서 발생하는 주요 이벤트를 기반으로 알림 데이터를 생성하고 사용자에게 전달하는 역할을 수행하는 클래스이다. 그룹 멤버 추가, 지출 추가 및 수정, 지출 삭제, 정산 완료 등의 이벤트 발생 시 Notification 객체를 생성한다. 생성된 알림은 애플리케이션 내부 알림 목록과 연동되어 사용자에게 표시된다.
+
+---
 
 
